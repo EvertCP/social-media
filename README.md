@@ -1,0 +1,1 @@
+# Social-IA - Plataforma de gestión de publicaciones con IA
