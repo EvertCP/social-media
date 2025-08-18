@@ -1,17 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { SocialService } from './social.service';
+import { HttpService } from '@nestjs/axios';
+
 
 @Injectable()
 export class FacebookService {
-  constructor(private readonly socialService: SocialService) {}
+  constructor(
+    private readonly socialService: SocialService,
+    private readonly httpService: HttpService,
+  ) {}
 
   async getAuthUrl(): Promise<string> {
-    // En una implementación real, generarías una URL de autenticación de Facebook
     const clientId = process.env.FACEBOOK_CLIENT_ID;
     const redirectUri = process.env.FACEBOOK_REDIRECT_URI;
-    const scope = 'email,public_profile,pages_show_list,pages_read_engagement,pages_manage_posts';
+    const scope = 'email,public_profile,pages_show_list,pages_read_engagement,pages_manage_posts,read_insights';
     
-    return `https://www.facebook.com/v12.0/dialog/oauth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+    return `https://www.facebook.com/v18.0/dialog/oauth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code&state=xyz123`;
   }
 
   async handleCallback(code: string, userId: string): Promise<any> {
@@ -19,39 +23,49 @@ export class FacebookService {
     // y guardarías la cuenta social en la base de datos
     
     // Simulación
-    const mockTokenResponse = {
-      access_token: 'mock_access_token',
-      token_type: 'bearer',
-      expires_in: 3600,
-    };
-    
-    // Simulación de obtener información del usuario
-    const mockUserInfo = {
-      id: '12345',
-      name: 'Usuario de Prueba',
-      email: 'usuario@ejemplo.com',
-    };
-    
-    // Guardar la cuenta social
+    const clientId = process.env.FACEBOOK_CLIENT_ID;
+    const clientSecret = process.env.FACEBOOK_CLIENT_SECRET;
+    const redirectUri = process.env.FACEBOOK_REDIRECT_URI;
+
+    // 1️⃣ Intercambiar code por access_token
+    const tokenUrl = `https://graph.facebook.com/v18.0/oauth/access_token?client_id=${clientId}&redirect_uri=${redirectUri}&client_secret=${clientSecret}&code=${code}`;
+
+    const tokenResponse = await this.httpService.axiosRef.get(tokenUrl);
+    const accessToken = tokenResponse.data.access_token;
+
+    // 2️⃣ Obtener info básica del usuario
+    const userInfoUrl = `https://graph.facebook.com/me?fields=id,name,email&access_token=${accessToken}`;
+    const userInfoResponse = await this.httpService.axiosRef.get(userInfoUrl);
+    const userInfo = userInfoResponse.data;
+
+    // 3️⃣ Guardar en la BD
     await this.socialService.create({
       platform: 'facebook',
-      accountId: mockUserInfo.id,
-      username: mockUserInfo.name,
-      accessToken: mockTokenResponse,
+      accountId: userInfo.id,
+      username: userInfo.name,
+      accessToken: accessToken,
       user: { id: userId } as any,
     });
-    
-    return mockUserInfo;
+
+    return userInfo;
+  }
+  async publishPost(pageId: string, pageAccessToken: string, content: string): Promise<any> {
+    const url = `https://graph.facebook.com/${pageId}/feed`;
+  
+    const response = await this.httpService.axiosRef.post(url, null, {
+      params: {
+        message: content,
+        access_token: pageAccessToken,
+      },
+    });
+  
+    return response.data; // Devuelve el ID del post creado
   }
 
-  async publishPost(accountId: string, content: string, mediaUrls: string[] = []): Promise<any> {
-    // En una implementación real, publicarías en Facebook usando la API
-    
-    // Simulación
-    return {
-      id: 'fb_post_id_123',
-      message: content,
-      created_time: new Date().toISOString(),
-    };
+  async getPageInsights(pageId: string, pageAccessToken: string): Promise<any> {
+    const url = `https://graph.facebook.com/${pageId}/insights/page_fans_online_per_day?access_token=${pageAccessToken}`;
+    const response = await this.httpService.axiosRef.get(url);
+    return response.data;
   }
+  
 }
