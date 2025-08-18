@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: oklch(1 0 0); /* White background */
+  --foreground: oklch(0.35 0 0); /* Dark gray text */
+  --card: oklch(0.97 0 0); /* Light gray card background */
+  --card-foreground: oklch(0.25 0 0); /* Darker text for cards */
+  --popover: oklch(1 0 0); /* White popover background */
+  --popover-foreground: oklch(0.35 0 0); /* Dark gray popover text */
+  --primary: oklch(0.45 0.15 160); /* Emerald-600 primary color */
+  --primary-foreground: oklch(1 0 0); /* White text on primary */
+  --secondary: oklch(0.55 0.15 160); /* Emerald-500 secondary color */
+  --secondary-foreground: oklch(1 0 0); /* White text on secondary */
+  --muted: oklch(0.97 0 0); /* Light gray muted background */
+  --muted-foreground: oklch(0.35 0 0); /* Dark gray muted text */
+  --accent: oklch(0.55 0.15 160); /* Emerald-500 accent color */
+  --accent-foreground: oklch(1 0 0); /* White text on accent */
+  --destructive: oklch(0.55 0.2 25); /* Orange destructive color */
+  --destructive-foreground: oklch(1 0 0); /* White text on destructive */
+  --border: oklch(0.9 0 0); /* Light border color */
+  --input: oklch(0.98 0 0); /* Very light input background */
+  --ring: oklch(0.45 0.15 160); /* Emerald focus ring */
+  --chart-1: oklch(0.55 0.15 160); /* Emerald chart color */
+  --chart-2: oklch(0.55 0.15 200); /* Cyan chart color */
+  --chart-3: oklch(0.55 0.2 25); /* Orange chart color */
+  --chart-4: oklch(0.65 0.2 60); /* Yellow chart color */
+  --chart-5: oklch(0.6 0.2 35); /* Orange-red chart color */
+  --radius: 0.5rem; /* Rounded corners */
+  --sidebar: oklch(0.97 0 0); /* Light gray sidebar background */
+  --sidebar-foreground: oklch(0.35 0 0); /* Dark gray sidebar text */
+  --sidebar-primary: oklch(0.45 0.15 160); /* Emerald sidebar primary */
+  --sidebar-primary-foreground: oklch(1 0 0); /* White sidebar primary text */
+  --sidebar-accent: oklch(0.55 0.15 160); /* Emerald sidebar accent */
+  --sidebar-accent-foreground: oklch(1 0 0); /* White sidebar accent text */
+  --sidebar-border: oklch(0.9 0 0); /* Light sidebar border */
+  --sidebar-ring: oklch(0.45 0.15 160); /* Emerald sidebar focus ring */
+}
+
+.dark {
+  --background: oklch(0.08 0 0); /* Very dark background */
+  --foreground: oklch(0.95 0 0); /* Light text */
+  --card: oklch(0.12 0 0); /* Dark card background */
+  --card-foreground: oklch(0.95 0 0); /* Light card text */
+  --popover: oklch(0.08 0 0); /* Dark popover background */
+  --popover-foreground: oklch(0.95 0 0); /* Light popover text */
+  --primary: oklch(0.55 0.15 160); /* Brighter emerald in dark mode */
+  --primary-foreground: oklch(0.08 0 0); /* Dark text on primary */
+  --secondary: oklch(0.2 0 0); /* Dark secondary */
+  --secondary-foreground: oklch(0.95 0 0); /* Light secondary text */
+  --muted: oklch(0.15 0 0); /* Dark muted background */
+  --muted-foreground: oklch(0.7 0 0); /* Medium gray muted text */
+  --accent: oklch(0.55 0.15 160); /* Emerald accent in dark mode */
+  --accent-foreground: oklch(0.08 0 0); /* Dark accent text */
+  --destructive: oklch(0.5 0.2 25); /* Orange destructive in dark mode */
+  --destructive-foreground: oklch(0.95 0 0); /* Light destructive text */
+  --border: oklch(0.2 0 0); /* Dark border */
+  --input: oklch(0.15 0 0); /* Dark input background */
+  --ring: oklch(0.55 0.15 160); /* Emerald focus ring */
+  --chart-1: oklch(0.6 0.2 264); /* Purple chart color */
+  --chart-2: oklch(0.7 0.17 162); /* Green chart color */
+  --chart-3: oklch(0.77 0.19 70); /* Yellow chart color */
+  --chart-4: oklch(0.63 0.27 304); /* Pink chart color */
+  --chart-5: oklch(0.65 0.25 16); /* Red chart color */
+  --sidebar: oklch(0.12 0 0); /* Dark sidebar background */
+  --sidebar-foreground: oklch(0.95 0 0); /* Light sidebar text */
+  --sidebar-primary: oklch(0.55 0.15 160); /* Emerald sidebar primary */
+  --sidebar-primary-foreground: oklch(0.08 0 0); /* Dark sidebar primary text */
+  --sidebar-accent: oklch(0.2 0 0); /* Dark sidebar accent */
+  --sidebar-accent-foreground: oklch(0.95 0 0); /* Light sidebar accent text */
+  --sidebar-border: oklch(0.2 0 0); /* Dark sidebar border */
+  --sidebar-ring: oklch(0.55 0.15 160); /* Emerald sidebar focus ring */
+}
+
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  input, textarea, select, button {
+    @apply border border-border ring-1 ring-blue-500/50;
+  }
+}

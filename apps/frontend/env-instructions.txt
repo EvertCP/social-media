@@ -1,0 +1,15 @@
+# Instrucciones para configurar el frontend
+
+1. Crea un archivo llamado '.env.local' en esta carpeta con el siguiente contenido:
+
+```
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+NEXT_PUBLIC_AUTH0_DOMAIN=tu-dominio-auth0.auth0.com
+NEXT_PUBLIC_AUTH0_CLIENT_ID=tu-client-id-auth0
+NEXT_PUBLIC_AUTH0_REDIRECT_URI=http://localhost:3000/api/auth/callback
+```
+
+2. Reemplaza los valores de Auth0 con tus credenciales reales
+Domain: dev-ybxjbia6c5svmzjo.us.auth0.com
+ClientID: DlzFFgdk2oXitOpLs94zadee6GxNVyqo
+ClientSecret: gKa11buKIbe2rU_llpbHRAO81oGzEvKtHnar35rAjnPnvwuC4cecBCc00PklwV0u
